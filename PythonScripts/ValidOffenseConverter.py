@@ -28,7 +28,7 @@ def createValuesLine(line, num, name, isActive):
     val = "INTO " + name + " VALUES "
     val =  val + "('" + str(num) + "','"
     val = val + '\'_\''.join(line)
-    val = val + "'_'" + isActive + "')" #active offenses
+    val = val + "')" #active offenses
     val = removeInjections(val)
     val = replace(val)
     val = toDate(val)
@@ -46,11 +46,11 @@ def removeInjections(line):
     #line = "'032681','3',11/26/1997 0:00:00,3/19/1999 0:00:00,'HILLSBOROUGH','0000000','DEAL DRGS-1000' SCH/DAYCARE'"
     words = line.split("_")
     
-    temp = words[6]
+    temp = words[8]
     temp = temp[1:len(temp)-1]
     temp = temp.replace("\'","")
-    temp = "\'" + temp + "\'"
-    words[6] = temp;
+    temp = "\'" + temp + "\')"
+    words[8] = temp;
          
     line = ",".join(words)
     return line
@@ -83,9 +83,10 @@ def main():
     
     tLines = []
     print("currNum = ?")
+    print("Enter:")
     print("1 - Inmate Active Offenses")
     print("382002 - Inmate Inactive Offenses")
-    print("675151 -")
+    print("675151 - Offender Active Offenses")
     currNum = input()
     currNum = int(currNum)
     for line in lines:
@@ -93,3 +94,5 @@ def main():
         currNum += 1
     
     f.write(' \n'.join(tLines))
+    f.write("\nSELECT * FROM dual;")
+    f.write("\nCOMMIT;)
