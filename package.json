@@ -15,5 +15,19 @@
   "bugs": {
     "url": "https://github.com/AlexanderRumak/CIS4301--ClassProject/issues"
   },
-  "homepage": "https://github.com/AlexanderRumak/CIS4301--ClassProject#readme"
+  "homepage": "https://github.com/AlexanderRumak/CIS4301--ClassProject#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "jsonwebtoken": "^7.3.0",
+    "morgan": "^1.8.1",
+    "oracledb": "^1.13.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
 }
