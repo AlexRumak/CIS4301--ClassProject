@@ -4,7 +4,7 @@ Insert Zipcode, county, facility, dcn, offenseCategory.
 Insert offender, inmate, offender_offense, inmate_offense (active and inactive), residence. 
 
 Execute command to delete duplicates:
-delete from inmate where inmate.DCNumber in
+delete from offender where offender.DCNumber in
 (select a.DCNumber from inmate a where a.DCNumber in (select b.DCNumber from offender b));
 
 Insert alias, body_mark, incarceration_history, imprisoned 
