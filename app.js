@@ -53,11 +53,15 @@ app.get('/', function(req, res){
     res.render('index.ejs');
 });
 
+// Page to login 
 app.get('/login', function(req, res){
     res.render('login.ejs');
 });
 
-
+// Page to signup
+app.get('/signup', function(req, res){
+    res.render('signup.ejs');
+});
 
 // Testing queries
 app.get('/test', function(req, res){
@@ -75,7 +79,7 @@ app.get('/test', function(req, res){
             return;
         }
 
-        connection.execute("SELECT * FROM Zipcode",
+        connection.execute("SELECT * FROM Inmate",
         function(err, result){
             if(err){
                 console.log(err.message);
@@ -88,8 +92,6 @@ app.get('/test', function(req, res){
     });    
 
 });
-
-
 
 
 
