@@ -1,1 +1,10 @@
-./app/server/dbConfig.js
+# Oracle login credentials
+app/server/dbConfig.js
+
+# Node dependencies
+node_modules/
+
+#Log Files
+logs
+*.log
+npm-debug.log*
