@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Login Page">
+    <meta name="author" content="Hugh">
+
+    <title>Criminal Database Search</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="css/search.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+        <div class="search-container">
+            <form class="form-search">
+            <h2 class="form-search-heading" id="searchheader">Criminal Database Search</h2>
+                <p>Fine tune your search paramters before you search by filling out the form below:</p>
+                
+                <label for="inputName" class="sr-only">Name:</label>
+                <input type="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
+                
+                <label for="inputAge" class="sr-only">Age:</label>
+                <input type="age" id="inputAge" class="form-control" placeholder="Age" required>
+                
+                <div class="form-group">
+                    <label for="selectCounty">Select county:</label>
+                    <select name="county" id="selectCounty" class="form-control">
+                        <option value="Default"></option>
+                        <option value="All">All Counties</option>
+                        <option value="Alachua">Alachua</option>
+                        <option value="Baker">Baker</option>
+                        <option value="Bay">Bay</option>
+                        <option value="Bradford">Bradford</option>
+                        <option value="Brevard">Brevard</option>
+                        <option value="Broward">Broward</option>
+                        <option value="Calhoun">Calhoun</option>
+                        <option value="Charlotte">Charlotte</option>
+                        <option value="Citrus">Citrus</option>
+                        <option value="Clay">Clay</option>
+                        <option value="Collier">Collier</option>
+                        <option value="Columbia">Columbia</option>
+                        <option value="DeSoto">DeSoto</option>
+                        <option value="Dixie">Dixie</option>
+                        <option value="Duval">Duval</option>
+                        <option value="Escambia">Escambia</option>
+                        <option value="Flagler">Flagler</option>
+                        <option value="Franklin">Franklin</option>
+                        <option value="Gadsden">Gadsden</option>
+                        <option value="Gilchrist">Gilchrist</option>
+                        <option value="Glades">Glades</option>
+                        <option value="Gulf">Gulf</option>
+                        <option value="Hamilton">Hamilton</option>
+                        <option value="Hardee">Hardee</option>
+                        <option value="Hendry">Hendry</option>
+                        <option value="Hernando">Hernando</option>
+                        <option value="Highlands">Highlands</option>
+                        <option value="Hillsborough">Hillsborough</option>
+                        <option value="Holmes">Holmes</option>
+                        <option value="Indian River">Indian River</option>
+                        <option value="Jackson">Jackson</option>
+                        <option value="Jefferson">Jefferson</option>
+                        <option value="Holmes">Holmes</option>
+                        <option value="Lafayette">Lafayette</option>
+                        <option value="Lake">Lake</option>
+                        <option value="Lee">Lee</option>
+                        <option value="Leon">Leon</option>
+                        <option value="Levy">Levy</option>
+                        <option value="Liberty">Liberty</option>
+                        <option value="Madison">Madison</option>
+                        <option value="Manatee">Manatee</option>
+                        <option value="Marion">Marion</option>
+                        <option value="Martin">Martin</option>
+                        <option value="Miami-Dade">Miami-Dade</option>
+                        <option value="Monroe">Monroe</option>
+                        <option value="Nassau">Nassau</option>
+                        <option value="Okaloosa">Okaloosa</option>
+                        <option value="Okeechobee">Okeechobee</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Osceola">Osceola</option>
+                        <option value="Palm Beach">Palm Beach</option>
+                        <option value="Pasco">Pasco</option>
+                        <option value="Pinellas">Pinellas</option>
+                        <option value="Polk">Polk</option>
+                        <option value="Putnam">Putnam</option>
+                        <option value="St. Johns">St. Johns</option>
+                        <option value="St. Lucie">St. Lucie</option>
+                        <option value="Santa Rosa">Santa Rosa</option>
+                        <option value="Sarasota">Sarasota</option>
+                        <option value="Seminole">Seminole</option>
+                        <option value="Sumter">Sumter</option>
+                        <option value="Suwannee">Suwannee</option>
+                        <option value="Taylor">Taylor</option>
+                        <option value="Union">Union</option>
+                        <option value="Volusia">Volusia</option>
+                        <option value="Wakulla">Wakulla</option>
+                        <option value="Walton">Walton</option>
+                        <option value="Washington">Washington</option>
+                    </select>
+                </div>
+            
+                
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="offender-flag"> Include Offenders in Search
+                    </label>
+                </div>
+                
+                 <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="inmate-flag"> Include Inmates in Search
+                    </label>
+                </div>
+                
+                <button class="btn btn-lg btn-primary btn-block" onclick="window.location='results.html'" type="submit">Search</button>
+            </form>
+        </div>
+      
+
+    </div> <!-- /container -->
+  </body>
+</html>
