@@ -1,17 +1,47 @@
+'use strict';
+
 // Setup the server
 // ***************************************************
 var express = require('express');
 var app = express();
 var port = 8000;
-
-var passport = require('passport');
-var flash = require('connect-flash');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var oracledb = require('oracledb');
-var dbConfig = require('./app/server/dbConfig.js');
+    oracledb.autoCommit = true;
+    oracledb.outFormat = oracledb.OBJECT;
+var dbConfig = require(__dirname + '/app/server/dbConfig.js');
+var bcrypt = require('bcrypt');
+//var passport = require('passport');
+//var flash = require('connect-flash');
+//var session = require('express-session');
+//var cookieParser = require('cookie-parser');
 
+var queryRunner = function(queryString, callback){
+    oracledb.getConnection(
+    {
+        user:           dbConfig.user,
+        password:       dbConfig.password,
+        connectString:  dbConfig.connectString
+    }, 
+    function(err, connection)
+    {
+        if(err){
+            console.log(err.message);
+            connection.close();
+            return;
+        }
+
+        connection.execute(queryString, [],
+        function(err, result){  
+            if(err){
+                console.log(err.message);
+                connection.close();
+                return callback(err);
+            }
+            return callback(null, result);
+        });
+    });    
+}
 
 // Configure the server
 // ***************************************************
@@ -19,12 +49,12 @@ var dbConfig = require('./app/server/dbConfig.js');
 
 //app.use(morgan('dev'));
 //app.use(cookieParser());
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
-app.set('views', './app/public/views');
-app.use(express.static('./app/public'));
+app.set('views', __dirname + '/app/public/views');
+app.use(express.static(__dirname + '/app/public'));
 // ***************************************************
 
 /*
@@ -38,8 +68,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 */
-
-
 
 // Routes
 // Defines the different web pages users are directed to
@@ -63,37 +91,37 @@ app.get('/signup', function(req, res){
     res.render('signup.ejs');
 });
 
-// Testing queries
-app.get('/test', function(req, res){
-    oracledb.getConnection(
-    {
-        user:           dbConfig.user,
-        password:       dbConfig.password,
-        connectString:  dbConfig.connectString
-    }, 
-    function(err, connection)
-    {
-        if(err){
-            console.log(err.message);
-            connection.close();
-            return;
-        }
+// TODO: Hash the password
+app.post('/signup', function(req, res){
+    var user = req.body.user;
+    var password = req.body.password;
 
-        connection.execute("SELECT * FROM Inmate",
-        function(err, result){
-            if(err){
-                console.log(err.message);
-                connection.close();
-                return;
-            }
-            res.send(result.rows);
-            console.log(result.rows);
-        });
-    });    
+    var query = `INSERT into Testuser values ('${user}', '${password}')`;
+    queryRunner(query, function(err, result){
+        if(err){
+            return err;
+        }
+    });
 
 });
 
+// Testing queries
+app.get('/test', function(req, res){
+    res.render('testquery.ejs');
+});
 
+app.post('/test', function(req, res){
+    var query = req.body.query;
+    
+    queryRunner(query, function(err, result){
+        if(err){
+            return res.send(err.message);
+        }
+        else{
+            return res.send(result.rows);
+        }
+    });
+});
 
 app.listen(port, function(){
     console.log('Listening on port ' + port);
