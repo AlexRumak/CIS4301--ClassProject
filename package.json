@@ -23,6 +23,7 @@
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
+    "express-oracle-session": "^0.1.2",
     "express-session": "^1.15.2",
     "jsonwebtoken": "^7.3.0",
     "oracledb": "^1.13.0",

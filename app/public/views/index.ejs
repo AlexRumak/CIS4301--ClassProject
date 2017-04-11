@@ -26,30 +26,21 @@
 
   <body>
     <!-- White banner at top -->
-    <div id ="banner">
-    </div>
-
+    <%- include banner.ejs %>
+    
     <!-- Main content area -->
     <div class="container">
       <h1>FL Prison Stats Database</h1>
 
       <a href="/signup">
-      <button type="button" id="signup-button">
+      <button type="button" class="user-button" id="signup-button">
         Signup &nbsp;<img src="../img/glyphicon-add-user.png">
       </button>
       </a>
 
       <a href="/login">
-      <button type="button" id="login-button">
+      <button type="button" class="user-button" id="login-button">
         Login &nbsp;<img src="../img/glyphicon-user-key.png">
-      </button>
-      </a>
-
-      </br>
-
-      <a href="/search">
-      <button type="button" id="search-button">
-        Search Tables
       </button>
       </a>
 
