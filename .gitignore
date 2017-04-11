@@ -58,4 +58,4 @@ typings/
 .env
 
 # CISE Credentials
-dbConfig.js
+app/server/dbConfig.js
