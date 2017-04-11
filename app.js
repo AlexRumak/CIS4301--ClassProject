@@ -8,13 +8,11 @@ var port = 8000;
 var bodyParser = require('body-parser');
 var oracledb = require('oracledb');
     oracledb.autoCommit = true;
-    oracledb.outFormat = oracledb.OBJECT;
 var dbConfig = require(__dirname + '/app/server/dbConfig.js');
 var bcrypt = require('bcrypt');
-//var passport = require('passport');
-//var flash = require('connect-flash');
-//var session = require('express-session');
-//var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
+var session = require('express-session');
+// var cookieParser = require('cookie-parser');
 
 var queryRunner = function(queryString, callback){
     oracledb.getConnection(
@@ -31,13 +29,14 @@ var queryRunner = function(queryString, callback){
             return;
         }
 
-        connection.execute(queryString, [],
+        connection.execute(queryString,
         function(err, result){  
             if(err){
                 console.log(err.message);
                 connection.close();
                 return callback(err);
             }
+            connection.close();
             return callback(null, result);
         });
     });    
@@ -45,29 +44,19 @@ var queryRunner = function(queryString, callback){
 
 // Configure the server
 // ***************************************************
-//require('.app/server/passport')(passport);
-
-//app.use(morgan('dev'));
-//app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/app/public/views');
 app.use(express.static(__dirname + '/app/public'));
-// ***************************************************
-
-/*
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
-    secret: 'lol',
-    resave: true,
-    saveUninitialized: true
+    secret: 'secret-pepe-found',
+    saveUninitialized: false,
+    resave: false
 }));
-
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
-*/
+
+
 
 // Routes
 // Defines the different web pages users are directed to
@@ -83,26 +72,63 @@ app.get('/', function(req, res){
 
 // Page to login 
 app.get('/login', function(req, res){
-    res.render('login.ejs');
+    var invalidUserMessage = req.flash('message')[0];
+    res.render('login.ejs', {message: invalidUserMessage});
+});
+
+app.post('/login', function(req, res){
+    var user = req.body.user;
+    var password = req.body.password;
+
+     queryRunner(`SELECT username, password FROM Testuser WHERE username = '${user}'`, function(err, result){
+        if(result.rows.length === 0 ){
+            console.log(result);   
+            req.flash('message', 'Unable to find username or password');
+            res.redirect('/login');
+        } else{
+            var salt = bcrypt.genSaltSync(10);
+            var hashedPasswordFromDatabase = result.rows[0][1];
+            if(bcrypt.compareSync(password, hashedPasswordFromDatabase)){
+                req.session.user = user;
+                res.redirect('/test');
+            }
+            else{
+            req.flash('message', 'Unable to find username or password');
+            res.redirect('/login');
+            }
+        }
+    });
+
 });
 
 // Page to signup
 app.get('/signup', function(req, res){
-    res.render('signup.ejs');
+    var noUserExistsMessage = req.flash('message')[0];
+    res.render('signup.ejs', {message: noUserExistsMessage});
 });
 
-// TODO: Hash the password
-app.post('/signup', function(req, res){
-    var user = req.body.user;
-    var password = req.body.password;
 
-    var query = `INSERT into Testuser values ('${user}', '${password}')`;
+app.post('/signup', function(req, res){
+    // Check if the username is taken
+    var user = req.body.user;
+    queryRunner(`SELECT username FROM Testuser WHERE username = '${user}'`, function(err, result){
+        if(result.rows.length > 0){
+            req.flash('message', 'The username already exists');
+            res.redirect('/signup');
+        }
+    });
+
+    var password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hashedPassword = bcrypt.hashSync(password, salt);
+
+    var query = `INSERT into Testuser values ('${user}', '${hashedPassword}')`;
     queryRunner(query, function(err, result){
         if(err){
             return err;
         }
     });
-
+    res.redirect('/test');
 });
 
 // Testing queries
