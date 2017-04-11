@@ -16,11 +16,11 @@
 - [ ] Get form data from user input
 - [ ] Create query results based on input
 - [ ] Send data back to user
-- [ ] Create login system
-  - [ ] Create user schemas
-  - [ ] Save user credentials in database
-  - [ ] Find way to authenticate users
-  - [ ] Create sessions
+- [x] Create login system
+  - [x] Create user schemas
+  - [x] Save user credentials in database
+  - [x] Find way to authenticate users
+  - [x] Create sessions
   
 ## Database
 - [x] Create schemas
