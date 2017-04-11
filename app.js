@@ -82,7 +82,6 @@ app.post('/login', function(req, res){
 
      queryRunner(`SELECT username, password FROM Testuser WHERE username = '${user}'`, function(err, result){
         if(result.rows.length === 0 ){
-            console.log(result);   
             req.flash('message', 'Unable to find username or password');
             res.redirect('/login');
         } else{
@@ -91,8 +90,7 @@ app.post('/login', function(req, res){
             if(bcrypt.compareSync(password, hashedPasswordFromDatabase)){
                 req.session.user = user;
                 res.redirect('/test');
-            }
-            else{
+            } else {
             req.flash('message', 'Unable to find username or password');
             res.redirect('/login');
             }
@@ -115,20 +113,21 @@ app.post('/signup', function(req, res){
         if(result.rows.length > 0){
             req.flash('message', 'The username already exists');
             res.redirect('/signup');
+        } else{
+                    
+            var password = req.body.password;
+            var salt = bcrypt.genSaltSync(10);
+            var hashedPassword = bcrypt.hashSync(password, salt);
+
+            var query = `INSERT into Testuser values ('${user}', '${hashedPassword}')`;
+            queryRunner(query, function(err, result){
+                if(err){
+                    return err;
+                }
+            });
+            res.redirect('/test');
         }
     });
-
-    var password = req.body.password;
-    var salt = bcrypt.genSaltSync(10);
-    var hashedPassword = bcrypt.hashSync(password, salt);
-
-    var query = `INSERT into Testuser values ('${user}', '${hashedPassword}')`;
-    queryRunner(query, function(err, result){
-        if(err){
-            return err;
-        }
-    });
-    res.redirect('/test');
 });
 
 // Testing queries
