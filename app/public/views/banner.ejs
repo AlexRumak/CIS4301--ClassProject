@@ -1,0 +1,31 @@
+<!-- This is the markup for the whitie banner at the top of each page -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    #banner {
+    background-color: white;
+    float: top;
+    height: 40px;
+    margin-bottom: 100px;
+    border: 1px solid darkgray; 
+    box-shadow: 0 10px 5px black;
+    font-size: 16px;
+    font-weight: bold;
+    color: grey;
+}
+</style>
+
+
+<div id ="banner">
+    <p id="class-message">CIS 4301 Database Group 03</p>
+    <!-- Checks if a session is going on and will display their name if it is -->
+    <% if (user) {%>
+        <p id="user-message">Hello, <%= user %></p> 
+    <% } else { %>
+        <p id="user-message">Welcome!</p>
+    <% } %>
+</div>
+
+</html>

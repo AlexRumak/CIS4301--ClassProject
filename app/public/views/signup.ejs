@@ -25,16 +25,18 @@
   </head>
 
   <body>
+    <!-- White banner at top -->
+    <%- include banner.ejs %>
 
-    <div id="banner"></div>
+    <!-- Flash a warning message if the username is taken -->
+    <% if(message) { %>
+      <p id="warning-message"> <%= message %> </p>
+    <% } %>
 
+    <!-- The actual form -->
     <div class="container">
-      <% if(message) { %>
-      <p id="message"> <%= message %> </p>
-      <% } %>
-
       <form class="form-signin" method="POST" action="/signup">
-        <h2 class="form-signin-heading" id="loginheader">Signup</h2>
+        <h2 class="form-signin-heading" id="form-header">Signup</h2>
         <label for="user" class="sr-only">Username</label>
         <input type="text" id="user" name="user" class="form-control" placeholder="Username" required autofocus>
         <label for="password" class="sr-only">Password</label>
