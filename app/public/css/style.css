@@ -1,3 +1,34 @@
+body {
+    background-color: lightslategray;
+    text-align: center;
+}
+
+h1 {
+    color: white;;
+    font-size: 80px;
+    font-weight: bold;
+    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+}
+
+#banner {
+    background-color: white;
+    float: top;
+    height: 40px;
+    margin-bottom: 100px;
+    border: 1px solid darkgray; 
+    box-shadow: 0 10px 5px black;
+}
+
+#signup-button {
+    margin: 40px;
+    padding: 24px;
+}
+
+#login-button {
+    margin: 40px;
+    padding: 24px;
+}
+
 #message {
   padding: 15px;
   border-radius: 3px 3px 3px 3px;
