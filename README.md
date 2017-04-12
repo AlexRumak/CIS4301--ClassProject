@@ -35,7 +35,21 @@ To install a specific module:
 
 `npm install <module-name> --save`
 
-`CIS4301--ClassProject/app/server/dbConfig.js` is the file where you need to enter your CISE Oracle credentials. **Make sure not to commit this file if you saved your credentials.** After running node app.js the terminal should display
+`CIS4301--ClassProject/app/server/dbConfig.js` is the file where you need to enter your CISE Oracle credentials. **Make sure not to commit this file if you saved your credentials.** You will need to create this file if it does not already exist. It should take the following format:
+
+```javascript
+/* 
+This file contains the credentials needed for connecting to the Oracle server
+*/
+module.exports = {
+    user: "", // Put in your Oracle user name here
+    password: "", // Password here
+    connectString: "" // The specific Oracle DB instance
+};
+```
+
+
+After running node app.js the terminal should display
 
 > Listening on port 8000...
 
