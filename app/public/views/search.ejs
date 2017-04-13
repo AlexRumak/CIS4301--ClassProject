@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Login Page">
+    <meta name="description" content="Search Page">
     <meta name="author" content="Hugh">
+    <meta name="author" content="Alex">
 
     <title>Criminal Database Search</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,22 +27,52 @@
 
   <body>
 
-    <div class="container">
+    <%- include banner.ejs %>
 
-        <div class="search-container">
-            <form class="form-search">
-            <h2 class="form-search-heading" id="searchheader">Criminal Database Search</h2>
-                <p>Fine tune your search paramters before you search by filling out the form below:</p>
+    <div class="container-fluid">
+
+        <div id="search-pane">
+            <form class="form-search" action="/results" method="PUT">
+            <h2 class="form-search-heading" id="search-header">Criminal Database Search</h2>
                 
-                <label for="inputName" class="sr-only">Name:</label>
-                <input type="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
+                <label for="input-first-name">First Name
+                    <input type="search" name="first" class="form-control" id="input-first-name" placeholder="First Name">
+                </label>
                 
-                <label for="inputAge" class="sr-only">Age:</label>
-                <input type="age" id="inputAge" class="form-control" placeholder="Age" required>
-                
+                <label for="input-last-name">Last Name
+                    <input type="search" name="last" class="form-control" id="input-last-name"  placeholder="Last Name">
+                </label>
+
+                </br>
+
+                <label for="input-age">Age
+                    <input type="number" name ="age" class="form-control" id="input-age" placeholder="Age" maxlength="3" min="1">
+                </label>
+
                 <div class="form-group">
-                    <label for="selectCounty">Select county:</label>
-                    <select name="county" id="selectCounty" class="form-control">
+                    <label for="select-race">Race</label>
+                    <select name="race" id="select-race" class="form-control">
+                        <option value=""></option>
+                        <option value="Asian">Asian</option>
+                        <option value="Black">Black</option>
+                        <option value="Hispanic">Hispanic</option>
+                        <option value="White">White</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="select-sex">Sex</label>
+                    <select name="sex" id="select-sex" class="form-control">
+                        <option value=""></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="select-county">Select county:</label>
+                    <select name="county" id="select-county" class="form-control">
                         <option value="Default"></option>
                         <option value="All">All Counties</option>
                         <option value="Alachua">Alachua</option>
@@ -115,7 +146,10 @@
                     </select>
                 </div>
             
-                
+                <label for="input-zip">Zipcode
+                    <input type="number" name="zipcode" class="form-control" id="input-ip" placeholder="Zipcode" maxlength="5">
+                </label>
+
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" value="offender-flag"> Include Offenders in Search
@@ -128,7 +162,7 @@
                     </label>
                 </div>
                 
-                <button class="btn btn-lg btn-primary btn-block" onclick="window.location='results.html'" type="submit">Search</button>
+                <button class="btn btn-lg btn-primary" onclick="window.location='results.html'" type="submit">Search</button>
             </form>
         </div>
       
