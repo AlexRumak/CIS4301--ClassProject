@@ -153,9 +153,12 @@
         $(this).css("background-color", "white")
       });
 
-      function updateMap(result) {
-          var result = result;
-          alert(result);
+      var table;
+
+      function updateMap(result1) {
+          var result = JSON.parse(result1);
+          table = result.coordinates;
+          initMap();
       }
 
       $('#query-custom-button').click(function() {
@@ -177,13 +180,10 @@
         });
      });
       
-      var locations = [
-        {lat: 27.729068, lng: -83.142372},
-        {lat:  26.5, lng: -83.14}
-        ];
 
 
       var map;
+      var markers = [];
       function initMap() {
           google.maps.visualRefresh = true;
           map = new google.maps.Map(document.getElementById('map'), {
@@ -211,17 +211,29 @@
             templateId: 340
             }
           });
-          
-          var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+          var count = 0;
 
-          var markers = locations.map(function(location, i) {
-            return new google.maps.Marker({
-              position: location,
-              label: labels[i % labels.length]
-            }); 
-          });
+          for(var i = 0; i < table.length; i++) {
+              var contentString = "DCNumber: " + table[i][0];
 
-          
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              var marker = new google.maps.Marker({
+                position: {lat: table[i][1], lng: table[i][2]},
+                map: map,
+                title: 'Offender'
+              });
+
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+
+              markers.push(marker);
+          }
+            
           // Add a marker clusterer to manage the markers.
           var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});

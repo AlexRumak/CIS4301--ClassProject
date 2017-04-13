@@ -136,30 +136,38 @@ app.post('/map', function(req, res){
     var county = req.body.County;
     var zipcode = req.body.ZipCode;
 
-    console.log(county.toUpperCase());
-    console.log(zipcode);
+    county = county.toUpperCase();
 
     var sqlQuery = "";
-    sqlQuery += "SELECT zipcode FROM zipcode ";
-    sqlQuery += "INNER JOIN county ";
-    sqlQuery += "on zipcode.countyid = county.countyid ";
-    sqlQuery += "where county.countyname = '" + county.toUpperCase() + "'";
+    if(county != "ALL COUNTIES" && county != "DEFAULT") {
+        console.log("COUNTY");
+        sqlQuery += "SELECT zipcode FROM zipcode ";
+        sqlQuery += "INNER JOIN county ";
+        sqlQuery += "on zipcode.countyid = county.countyid ";
+        sqlQuery += "where county.countyname = '" + county.toUpperCase() + "'";
+    }
+    else if(zipcode == ""){
+        sqlQuery += "SELECT zipcode FROM zipcode";
+    }
+    else {
+        sqlQuery += "SELECT zipcode FROM zipcode ";
+        sqlQuery += "where zipcode = " + zipcode;    
+    }
+    var innerSQL = sqlQuery;
+
+    sqlQuery = "";
+    sqlQuery = "SELECT residence.dcnumber, treat(coordinates as geocoord).latitude as latitude, ";  
+    sqlQuery += "treat(coordinates as geocoord).longitude as longitude FROM residence ";
+    sqlQuery += "Where treat(coordinates as geocoord).latitude is not null ";
+    sqlQuery += "AND residence.zipcode in (" + innerSQL + ")";
 
     connection.queryRunner(sqlQuery, function(err, results){
         if(err){
             return err;
         }
-        sqlQuery = "";
-        sqlQuery = "SELECT * FROM residences ";
-        sqlQuery += " "
-
         var tuples = results.rows;
-        for(i = 0; i < tuples.length; i++) {
-            
-        }
+        res.send(JSON.stringify({coordinates: tuples}));
     });
-
-    res.json({});
 })
 
 
