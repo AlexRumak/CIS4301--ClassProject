@@ -28,6 +28,8 @@
     <!-- White banner at top -->
     <%- include banner.ejs %>
     
+    <a href="/search"><button class="btn btn-lg" id="return-search" type="submit">Return</button></a>
+
     <!-- Main content area -->
     <div class="container-fluid" id="results-container">
 
@@ -37,6 +39,9 @@
     <table>
         <tr>
             <% records.metaData.forEach(function(attribute){ %>
+                <% if (attribute.name instanceof Date) { %>
+                    <th><% attribute.name.toLocaleDateString(); %> </th>
+                <% } %>
                 <th><%= attribute.name %></th>
             <% }); %>
         </tr>
