@@ -49,6 +49,32 @@ module.exports = {
 };
 ```
 
+## Database Set-Up
+
+### Username and Password Table:
+In order to be able to use the user system on the website, your database must contain the following websiteUsers table:
+```SQL
+CREATE TABLE websiteUsers (
+    userID   INT            NOT NULL,
+    username VARCHAR(20)    NOT NULL,
+    password VARCHAR(80)    NOT NULL
+);
+
+ALTER TABLE websiteUsers ADD (
+    CONSTRAINT websiteUsers_pk PRIMARY KEY (userID));
+    
+CREATE SEQUENCE websiteUsers_seq START WITH 1;
+
+CREATE OR REPLACE TRIGGER websiteUser_bir
+    BEFORE INSERT ON websiteUsers
+    FOR EACH ROW
+BEGIN
+    SELECT  websiteUsers_seq.NEXTVAL
+    INTO    :new.userID
+    FROM    dual;
+END;
+/
+```
 
 After running node app.js the terminal should display
 

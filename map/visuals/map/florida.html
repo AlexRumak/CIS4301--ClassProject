@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<style>
+.counties :hover {
+  fill: red;
+}
+.counties :onclick {
+  fill: yellow;
+}    
+.county-borders {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+body {
+    transform: scale(4.0);
+    transform-origin: 0 0;
+   // add prefixed versions too.
+}
+</style>
+<svg width="830" height="600"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script>
+var svg = d3.select("svg")
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+  
+var projection = d3.geoAlbers()
+    .rotate([96, 0])
+    .center([0, 0])
+    .parallels([29.5, 45.5])
+    .scale(1)
+    .translate([width / 2, height / 2])
+    .precision(.1);    
+    
+var path = d3.geoPath();
+    
+var mytext = d3.select('body').append('div')
+    .style('position','absolute')
+    .style('padding','0 10px')
+    .style('background','blue')
+    .style('opacity',0)
+
+var color = d3.scaleLinear()
+    .domain([0,67])
+    .range(["black", "steelblue"])
+    .interpolate(d3.interpolateLab);
+    
+d3.json("us-map.json", function(error, us) {
+  if (error) throw error;
+  svg.append("g")
+       .attr("class", "counties")
+    .selectAll("path")
+        .data(topojson.feature(us, us.objects.counties).features)
+    .enter().append("path")
+        .attr("class", "counties")
+        .attr("d", path)
+        .on('mousedown.log', function (d) {
+            console.log(d.id);
+        });
+    
+  svg.append("path")
+      .attr("class", "county-borders")  
+      .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b; })));
+    
+    
+});
+</script>
