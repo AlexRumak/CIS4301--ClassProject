@@ -1,7 +1,7 @@
 var session = require('express-session');
 var oracledb = require('oracledb');
     oracledb.autoCommit = true;
-    oracledb.maxRows = 1000000;
+    oracledb.maxRows = 100000;
 var oracledbStore = require('express-oracle-session')(session);
 var dbConfig = require(__dirname + '/dbConfig.js');
 
