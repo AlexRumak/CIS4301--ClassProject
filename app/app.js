@@ -49,7 +49,7 @@ app.post('/login', function(req, res){
 
     // Checks if the user exists
     // If the user doesn't exist, reload the login page
-    connection.queryRunner(`SELECT username, password FROM testUser WHERE username = '${user}'`, function(err, result){
+    connection.queryRunner(`SELECT username, password FROM websiteUsers WHERE username = '${user}'`, function(err, result){
         if(result.rows.length === 0 ){
             req.flash('message', 'Unable to find username or password');
             res.redirect('/login');
@@ -80,7 +80,7 @@ app.get('/signup', function(req, res){
 app.post('/signup', function(req, res){
     // Check if the username is taken
     var user = req.body.user;
-    connection.queryRunner(`SELECT username FROM testUser WHERE username = '${user}'`, function(err, result){
+    connection.queryRunner(`SELECT username FROM websiteUsers WHERE username = '${user}'`, function(err, result){
         if(result.rows.length > 0){
             req.flash('message', 'The username already exists');
             res.redirect('/signup');
@@ -90,7 +90,7 @@ app.post('/signup', function(req, res){
             var salt = bcrypt.genSaltSync(10);
             var hashedPassword = bcrypt.hashSync(password, salt);
 
-            var query = `INSERT INTO testUser (username, password) values ('${user}', '${hashedPassword}')`;
+            var query = `INSERT INTO websiteUsers (username, password) values ('${user}', '${hashedPassword}')`;
             connection.queryRunner(query, function(err, result){
                 if(err){
                     return err;
@@ -170,7 +170,9 @@ app.get('/results', function(req, res){
     var firstName = getParameterByName('first');
     var lastName = getParameterByName('last');
 
+
     var queryString = `SELECT * FROM Inmate where firstName like '%${firstName}%' AND lastName like '%${lastName}%'`;
+
 
     connection.queryRunner(queryString, function(err, results){
         if(err){
