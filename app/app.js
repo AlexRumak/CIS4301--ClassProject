@@ -9,44 +9,7 @@ var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 var flash = require('connect-flash');
 var session = require('express-session');
-var oracledb = require('oracledb');
-    oracledb.autoCommit = true;
-    oracledb.maxRows = 1000000;
-var oracledbStore = require('express-oracle-session')(session);
-var dbConfig = require(__dirname + '/server/dbConfig.js');
-require(__dirname + '/server/passwordManager.js');
-
-var credentials = { 
-        user:           dbConfig.user,
-        password:       dbConfig.password,
-        connectString:  dbConfig.connectString
-}
-
-var sessionStore = new oracledbStore(credentials);
-
-// Funtcion used to run the queries against the OracleDB
-var queryRunner = function(queryString, callback){
-    oracledb.getConnection(credentials, 
-    function(err, connection)
-        {
-        if(err){
-            console.log(err.message);
-            connection.close();
-            return;
-        }
-
-        connection.execute(queryString,
-        function(err, result){  
-            if(err){
-                console.log(err.message);
-                connection.close();
-                return callback(err);
-            }
-            connection.close();
-            return callback(null, result);
-        });
-    });    
-}
+var connection = require(__dirname + '/server/connection.js');
 
 // Configure the server
 // ***************************************************
@@ -59,7 +22,7 @@ app.use(session({ // Creates lasting sessions
     secret: 'secret-pepe-found', 
     saveUninitialized: false,
     resave: false,
-    store: sessionStore
+    store: connection.sessionStore
 }));
 app.use(flash()); // Used to display the warning messages when login/signup fails
 
@@ -86,7 +49,7 @@ app.post('/login', function(req, res){
 
     // Checks if the user exists
     // If the user doesn't exist, reload the login page
-    queryRunner(`SELECT username, password FROM websiteUsers WHERE username = '${user}'`, function(err, result){
+    connection.queryRunner(`SELECT username, password FROM websiteUsers WHERE username = '${user}'`, function(err, result){
         if(result.rows.length === 0 ){
             req.flash('message', 'Unable to find username or password');
             res.redirect('/login');
@@ -117,18 +80,18 @@ app.get('/signup', function(req, res){
 app.post('/signup', function(req, res){
     // Check if the username is taken
     var user = req.body.user;
-    queryRunner(`SELECT username FROM websiteUsers WHERE username = '${user}'`, function(err, result){
+    connection.queryRunner(`SELECT username FROM websiteUsers WHERE username = '${user}'`, function(err, result){
         if(result.rows.length > 0){
             req.flash('message', 'The username already exists');
             res.redirect('/signup');
-        } else{
+        } else {
             // Hash the password before storing it in the database
             var password = req.body.password;
             var salt = bcrypt.genSaltSync(10);
             var hashedPassword = bcrypt.hashSync(password, salt);
 
             var query = `INSERT INTO websiteUsers (username, password) values ('${user}', '${hashedPassword}')`;
-            queryRunner(query, function(err, result){
+            connection.queryRunner(query, function(err, result){
                 if(err){
                     return err;
                 }
@@ -153,6 +116,16 @@ app.get('/', function(req, res){
     }
 });
 
+// Giant search form page
+app.get('/search', function(req, res){
+   res.render('search.ejs', {user: req.session.user});
+});
+
+// Render the results on a search submission
+app.post('/search', function(req, res){
+
+});
+
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});
 })
@@ -165,7 +138,7 @@ app.get('/test', function(req, res){
 app.post('/test', function(req, res){
     var query = req.body.query;
     
-    queryRunner(query, function(err, result){
+    connection.queryRunner(query, function(err, result){
         if(err){
             return res.send(err.message);
         }
