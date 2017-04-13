@@ -169,9 +169,26 @@ app.get('/results', function(req, res){
 
     var firstName = getParameterByName('first');
     var lastName = getParameterByName('last');
+    var dcn = getParameterByName('dcn');
+    var race = getParameterByName('race');
+    var sex = getParameterByName('sex');
+    var county = getParameterByName('county');
+    var zipcode = getParameterByName('zipcode');
 
-
-    var queryString = `SELECT * FROM Inmate where firstName like '%${firstName}%' AND lastName like '%${lastName}%'`;
+    var queryString = "";
+    if(county != ""){
+        queryString = ``;
+    } else if (zipcode != "") {
+        queryString = ``;
+    } else {
+        queryString =`SELECT * FROM Inmate where fistName like '%${firstName}%' AND lastName like '%${lastName}%' AND sex = '%${lastName}%'`;
+        if(sex != ""){
+            queryString = queryString + `and sex = '${sex}'`;
+        }
+        if(race != "" ){
+            queryString = queryString + `and race = '${race}'`;
+        }
+    }
 
 
     connection.queryRunner(queryString, function(err, results){
@@ -206,7 +223,8 @@ app.get('/rdresults', function(req, res){
     var lastName = getParameterByName('last');
     var dcn = getParameterByName('dcn');
 
-    var queryString = `SELECT * FROM Residence where firstname = '${firstName}' AND lastname = '${lastName}' AND DCNumber = '${dcn}'`;
+    var queryString = `select a.residenceid, a.addressline1, a.addressline2, a.city, a.state, a.zipcode from residence a, offender b where b.firstname like '%${firstName}%' and b.lastname like '%${lastName}%'`;
+
 
     connection.queryRunner(queryString, function(err, results){
         if(err){
@@ -217,7 +235,7 @@ app.get('/rdresults', function(req, res){
 });
 
 // Render the results on an offense search submission
-app.get('/rdresults', function(req, res){
+app.get('/ofresults', function(req, res){
     // Function below breaks the URL up given
     // a URI such as /results?params='paramValue'&moreParams
     function getParameterByName(name, url) {

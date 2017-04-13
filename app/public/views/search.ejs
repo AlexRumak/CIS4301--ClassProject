@@ -46,17 +46,19 @@
                 </br>
 
                 <label for="input-dcn">DCNumber
-                    <input type="search" name="last" class="form-control" id="input-dcn"  placeholder="DCNumber">
+                    <input type="search" name="dcn" class="form-control" id="input-dcn"  placeholder="DCNumber">
                 </label>
 
                 <div class="form-group">
                     <label for="select-race">Race</label>
                     <select name="race" id="select-race" class="form-control">
                         <option value=""></option>
-                        <option value="Asian">Asian</option>
-                        <option value="Black">Black</option>
-                        <option value="Hispanic">Hispanic</option>
-                        <option value="White">White</option>
+                        <option value="A">Asian</option>
+                        <option value="B">Black</option>
+                        <option value="H">Hispanic</option>
+                        <option value="I">Indian</option>
+                        <option value="W">White</option>
+                        <option value="U">Unknown</option>
                     </select>
                 </div>
 
@@ -69,6 +71,7 @@
                     </select>
                 </div>
 
+                <hr>
 
                 <div class="form-group">
                     <label for="select-county">Select county:</label>
@@ -145,22 +148,16 @@
                         <option value="Washington">Washington</option>
                     </select>
                 </div>
-            
-                <label for="input-zip">Zipcode
-                    <input type="number" name="zipcode" class="form-control" id="input-ip" placeholder="Zipcode" maxlength="5">
-                </label>
-
-           
 
                 </br></br>
 
-                <button class="btn btn-lg btn-primary" onclick="window.location='results.html'" type="submit">Search</button>
+                <button class="btn btn-lg btn-primary" type="submit">Search</button>
             </form>
         </div>
       
         <!-- Residence Search -->
         <div class="search-pane" id="residence-pane">
-            <form class="form-search" action="/results" method="PUT">
+            <form class="form-search" action="/rdresults" method="PUT">
             <h2 class="form-search-heading" id="search-header">Residence Search</h2>
                 
                 <label>First Name
@@ -172,10 +169,6 @@
                 </label>
 
                 </br>
-
-                <label>DCNumber
-                    <input type="search" name="dcn" class="form-control input-dcn"  placeholder="DCNumber">
-                </label>
             
                 </br>
 
@@ -185,9 +178,9 @@
             </form>
         </div>
 
-        <!-- Offense Search -->
+        <!-- Offense Search 
         <div class="search-pane" id="offense-pane">
-            <form class="form-search" action="/results" method="PUT">
+            <form class="form-search" action="/ofresults" method="PUT">
             <h2 class="form-search-heading" id="search-header">Offense Search</h2>
                 
                 <label>First Name
@@ -284,9 +277,9 @@
 
                 </br>
 
-                <button class="btn btn-lg btn-primary" onclick="window.location='results.html'" type="submit">Search</button>
+                <button class="btn btn-lg btn-primary" type="submit">Search</button>
             </form>
-        </div>
+        </div> Offense search --> 
 
     </div> <!-- /container -->
   </body>
