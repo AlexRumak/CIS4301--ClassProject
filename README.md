@@ -45,7 +45,7 @@ This file contains the credentials needed for connecting to the Oracle server
 module.exports = {
     user: "", // Put in your Oracle user name here
     password: "", // Password here
-    connectString: "" // The specific Oracle DB instance
+    connectString: "http://oracle.cise.ufl.edu:1521/orcl" // The specific Oracle DB instance
 };
 ```
 
