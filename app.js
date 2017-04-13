@@ -99,8 +99,13 @@ app.post('/login', function(req, res){
             var hashedPasswordFromDatabase = result.rows[0][1];
             if(bcrypt.compareSync(password, hashedPasswordFromDatabase)){
                 // Start the session and set the user variable to be the username
-                req.session.user = user;
-                res.redirect('/action');
+                req.session.reload(function(err){
+                    if(err){
+                        console.log(err);
+                    }
+                    req.session.user = user;
+                    res.redirect('/action');
+                });
             } else {
             req.flash('message', 'Unable to find username or password');
             res.redirect('/login');
@@ -141,9 +146,30 @@ app.post('/signup', function(req, res){
     });
 });
 
+// Page that allows user to perform a query or see graphs
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});
-})
+});
+
+// Giant search form page
+app.get('/search', function(req, res){
+    res.render('search.ejs', {user: req.session.user});
+});
+
+// Render the results on a search submission
+app.post('/search', function(req, res){
+
+});
+
+// When the user logs out, get rid of the session
+app.get('/logout', function(req, res){
+    req.session.destroy( function(err){
+        if(err){
+            console.log(err);
+        }
+    res.redirect('/');
+    });
+});
 
 // Testing queries
 app.get('/test', function(req, res){

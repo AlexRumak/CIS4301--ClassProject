@@ -4,7 +4,7 @@ body {
 }
 
 h1 {
-    color: white;;
+    color: white;
     font-size: 80px;
     font-weight: bold;
     text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
@@ -61,6 +61,24 @@ a {
   font-weight: bold;
   text-shadow: 2px 2px black;
 }
+
+#search-pane {
+  float:left;
+  margin-left: 5%;
+  padding: 15px;
+  background-color: lightgray;
+  box-shadow: 2px 2px 4px black;
+  border-radius: 10px;
+}
+
+.search-pane-layout {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 0;
+  
+}
+
+
 
 
 /* BOOTSTRAP DEFINED DEFAULTS */

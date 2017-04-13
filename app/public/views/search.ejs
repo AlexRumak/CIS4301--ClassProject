@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Login Page">
+    <meta name="description" content="Search Page">
     <meta name="author" content="Hugh">
 
     <title>Criminal Database Search</title>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/bootstrap-theme.css">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,19 +26,27 @@
 
   <body>
 
-    <div class="container">
+    <%- include banner.ejs %>
 
-        <div class="search-container">
+    <div class="container-fluid">
+
+        <div class="search-container" id="search-pane">
             <form class="form-search">
             <h2 class="form-search-heading" id="searchheader">Criminal Database Search</h2>
-                <p>Fine tune your search paramters before you search by filling out the form below:</p>
                 
-                <label for="inputName" class="sr-only">Name:</label>
-                <input type="name" id="inputName" class="form-control" placeholder="Name" required autofocus>
-                
-                <label for="inputAge" class="sr-only">Age:</label>
-                <input type="age" id="inputAge" class="form-control" placeholder="Age" required>
-                
+                <label class=for="input-name">Name
+                    <input type="search" class="form-control" id="input-name" class="search-pane-layout" placeholder="Name" length=80>
+                </label>
+                </br>
+
+                <label for="input-age">Age
+                    <input type="number" class="form-control" id="input-age" class="search-pane-layout" placeholder="Age" maxlength="3">
+                </label>
+
+                <label for="input-race">Race
+                    <input type="text" class="form-control" id="input-race" class="search-pane-layout" placeholder="-" maxlength="1">
+                </label>
+
                 <div class="form-group">
                     <label for="selectCounty">Select county:</label>
                     <select name="county" id="selectCounty" class="form-control">

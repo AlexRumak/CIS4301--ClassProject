@@ -25,9 +25,6 @@
     "express": "^4.15.2",
     "express-oracle-session": "^0.1.2",
     "express-session": "^1.15.2",
-    "jsonwebtoken": "^7.3.0",
-    "oracledb": "^1.13.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "oracledb": "^1.13.0"
   }
 }
