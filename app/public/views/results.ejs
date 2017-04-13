@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Results">
+    <meta name="author" content="Hugh">
+
+    <title>FL Prison Stats</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+
+    <!-- This page's stylehseet -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <!-- White banner at top -->
+    <%- include banner.ejs %>
+    
+    <!-- Main content area -->
+    <div class="container-fluid" id="results-container">
+
+    <!-- Layout the table -->
+    <!-- Maybe do this with jQuery -->
+    <% if (records) { %> 
+    <table>
+        <tr>
+            <% records.metaData.forEach(function(attribute){ %>
+                <th><%= attribute.name %></th>
+            <% }); %>
+        </tr>
+        <% records.rows.forEach(function(criminal) { %>
+            <tr>
+                <% criminal.forEach(function(column){ %>
+                    <td><%= column %>
+                <% }); %>
+            </tr>
+        <% }); %>
+    <% } %>
+     
+
+    </div> 
+    <!-- /Main content -->
+
+  </body>
+</html>

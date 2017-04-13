@@ -148,6 +148,43 @@ app.post('/test', function(req, res){
     });
 });
 
+// Giant search form page
+app.get('/search', function(req, res){
+    res.render('search.ejs', {user: req.session.user});
+});
+
+// Render the results on a search submission
+app.get('/results', function(req, res){
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = req.url;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+        if (!results){ 
+            return null;
+        }
+        if (!results[2]){
+            return '';
+        } 
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var firstName = getParameterByName('first');
+    firstName = "";
+    var lastName = getParameterByName('last');
+
+    var queryString = `SELECT * FROM Inmate WHERE fistname like '%${firstName}%'`; 
+    //AND lastname like '${lastName}'`;
+    queryRunner(queryString, function(err, results){
+        if(err){
+            return err;
+        }
+        res.render('results.ejs', {user: req.session.user, records: results});
+    });
+});
+
 // Testing if session works
 app.get('/session', function(req, res){
     res.send(req.session);
