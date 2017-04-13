@@ -96,13 +96,12 @@ app.post('/signup', function(req, res){
                     return err;
                 }
             });
-            res.redirect('/test');
+            res.redirect('/action');
         }
     });
 });
 
 app.post('/logout', function(req, res){
-    console.log('aotweiofoe');
     req.session.destroy();
     res.redirect('/');
 });
@@ -125,6 +124,18 @@ app.get('/search', function(req, res){
 app.post('/search', function(req, res){
 
 });
+
+// Map page
+app.get('/map', function(req, res){
+    res.render('map.ejs', {user: req.session.user});
+});
+
+// Render map from user requests
+app.post('/map', function(req, res){
+    //TODO: GET GEOCOORDINATES FROM COUNTY
+
+    res.json({})
+})
 
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});
