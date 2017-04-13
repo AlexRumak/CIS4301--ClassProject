@@ -96,7 +96,7 @@ app.post('/signup', function(req, res){
                     return err;
                 }
             });
-            res.redirect('/test');
+            res.redirect('/action');
         }
     });
 });
@@ -119,6 +119,56 @@ app.get('/', function(req, res){
 app.get('/search', function(req, res){
    res.render('search.ejs', {user: req.session.user});
 });
+
+// Render the results on a search submission
+app.post('/search', function(req, res){
+
+});
+
+// Map page
+app.get('/map', function(req, res){
+    res.render('map.ejs', {user: req.session.user});
+});
+
+// Render map from user requests
+app.post('/map', function(req, res){
+    //TODO: GET GEOCOORDINATES FROM COUNTY
+    var county = req.body.County;
+    var zipcode = req.body.ZipCode;
+
+    county = county.toUpperCase();
+
+    var sqlQuery = "";
+    if(county != "ALL COUNTIES" && county != "DEFAULT") {
+        console.log("COUNTY");
+        sqlQuery += "SELECT zipcode FROM zipcode ";
+        sqlQuery += "INNER JOIN county ";
+        sqlQuery += "on zipcode.countyid = county.countyid ";
+        sqlQuery += "where county.countyname = '" + county.toUpperCase() + "'";
+    }
+    else if(zipcode == ""){
+        sqlQuery += "SELECT zipcode FROM zipcode";
+    }
+    else {
+        sqlQuery += "SELECT zipcode FROM zipcode ";
+        sqlQuery += "where zipcode = " + zipcode;    
+    }
+    var innerSQL = sqlQuery;
+
+    sqlQuery = "";
+    sqlQuery = "SELECT residence.dcnumber, treat(coordinates as geocoord).latitude as latitude, ";  
+    sqlQuery += "treat(coordinates as geocoord).longitude as longitude FROM residence ";
+    sqlQuery += "Where treat(coordinates as geocoord).latitude is not null ";
+    sqlQuery += "AND residence.zipcode in (" + innerSQL + ")";
+
+    connection.queryRunner(sqlQuery, function(err, results){
+        if(err){
+            return err;
+        }
+        var tuples = results.rows;
+        res.send(JSON.stringify({coordinates: tuples}));
+    });
+})
 
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});

@@ -1,37 +1,253 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Map of Florida</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../css/style.css">
+
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+     #map {
+       height: 75%;
+       width: 60%;
+       margin: auto;
+       border: 3px solid black;
+     }
+     html, body {
+       height: 100%;
+       margin: 0;
+       padding: 0;
+    }
+    #googft-mapCanvas {
+     height: 300px;
+     margin: 0;
+     padding: 0;
+     width: 500px;
+    } 
+
+    .input-container {
+      position: relative;
+      left: 50%;
+    }
+    .container-fluid {
+      width: 50%;
+    }
+    .form-group {
+      display: inline-block;  
+    }
+    #query-custom-button {
+      background-color: white;
+      width: 70%;
+      border: 1px solid black;
+      border-radius: 2px;
+      cursor: pointer;
+   }
+  </style>
+
   </head>
+  
   <%- include banner.ejs %>
   <body>
+    <h1>COUNTY MAP:</h1>
+
+    <div class="container-fluid" >
+      <div class="form-group">
+        <label for="input-zip">Input a Zipcode:
+          <input type=text id="input-zip"></input>
+        </label>
+      </div>
+      <div class="form-group">
+          <label for="select-county">Select county:
+            <select name="county" id="select-county" class="form-control">
+                <option value="Default"></option>
+                <option value="All">All Counties</option>
+                <option value="Alachua">Alachua</option>
+                <option value="Baker">Baker</option>
+                <option value="Bay">Bay</option>
+                <option value="Bradford">Bradford</option>
+                <option value="Brevard">Brevard</option>
+                <option value="Broward">Broward</option>
+                <option value="Calhoun">Calhoun</option>
+                <option value="Charlotte">Charlotte</option>
+                <option value="Citrus">Citrus</option>
+                <option value="Clay">Clay</option>
+                <option value="Collier">Collier</option>
+                <option value="Columbia">Columbia</option>
+                <option value="DeSoto">DeSoto</option>
+                <option value="Dixie">Dixie</option>
+                <option value="Duval">Duval</option>
+                <option value="Escambia">Escambia</option>
+                <option value="Flagler">Flagler</option>
+                <option value="Franklin">Franklin</option>
+                <option value="Gadsden">Gadsden</option>
+                <option value="Gilchrist">Gilchrist</option>
+                <option value="Glades">Glades</option>
+                <option value="Gulf">Gulf</option>
+                <option value="Hamilton">Hamilton</option>
+                <option value="Hardee">Hardee</option>
+                <option value="Hendry">Hendry</option>
+                <option value="Hernando">Hernando</option>
+                <option value="Highlands">Highlands</option>
+                <option value="Hillsborough">Hillsborough</option>
+                <option value="Holmes">Holmes</option>
+                <option value="Indian River">Indian River</option>
+                <option value="Jackson">Jackson</option>
+                <option value="Jefferson">Jefferson</option>
+                <option value="Holmes">Holmes</option>
+                <option value="Lafayette">Lafayette</option>
+                <option value="Lake">Lake</option>
+                <option value="Lee">Lee</option>
+                <option value="Leon">Leon</option>
+                <option value="Levy">Levy</option>
+                <option value="Liberty">Liberty</option>
+                <option value="Madison">Madison</option>
+                <option value="Manatee">Manatee</option>
+                <option value="Marion">Marion</option>
+                <option value="Martin">Martin</option>
+                <option value="Miami-Dade">Miami-Dade</option>
+                <option value="Monroe">Monroe</option>
+                <option value="Nassau">Nassau</option>
+                <option value="Okaloosa">Okaloosa</option>
+                <option value="Okeechobee">Okeechobee</option>
+                <option value="Orange">Orange</option>
+                <option value="Osceola">Osceola</option>
+                <option value="Palm Beach">Palm Beach</option>
+                <option value="Pasco">Pasco</option>
+                <option value="Pinellas">Pinellas</option>
+                <option value="Polk">Polk</option>
+                <option value="Putnam">Putnam</option>
+                <option value="St. Johns">St. Johns</option>
+                <option value="St. Lucie">St. Lucie</option>
+                <option value="Santa Rosa">Santa Rosa</option>
+                <option value="Sarasota">Sarasota</option>
+                <option value="Seminole">Seminole</option>
+                <option value="Sumter">Sumter</option>
+                <option value="Suwannee">Suwannee</option>
+                <option value="Taylor">Taylor</option>
+                <option value="Union">Union</option>
+                <option value="Volusia">Volusia</option>
+                <option value="Wakulla">Wakulla</option>
+                <option value="Walton">Walton</option>
+                <option value="Washington">Washington</option>
+            </select>
+          </label>
+          <div class = "form-group" id="query-custom-button" ><p>Submit Query</p></div>
+      </div>
+    </div>  
     <div id="map"></div>
+
     <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
+
+      $('#query-custom-button').mouseenter(function() {
+     //On-hover
+       $(this).css("background-color", "lightgray");
+      }).mouseleave(function() {
+      //On-leave
+        $(this).css("background-color", "white")
+      });
+
+      var table;
+
+      function updateMap(result1) {
+          var result = JSON.parse(result1);
+          table = result.coordinates;
+          initMap();
       }
+
+      $('#query-custom-button').click(function() {
+
+         var county = $('#select-county').val();
+         var zipCode = $('#input-zip').val();
+         var dataToSend = {County: county, ZipCode: zipCode};
+
+         $.ajax({type: "POST",
+            url: "/map",
+            datatype: "json",
+            data: dataToSend,
+            success:function(result) { 
+                updateMap(result);
+            },
+            failure:function(result) {
+                alert("error: connection failure");
+            }
+        });
+     });
+      
+
+
+      var map;
+      var markers = [];
+      function initMap() {
+          google.maps.visualRefresh = true;
+          map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 27.729068, lng: -83.142372},
+            zoom: 7,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          });
+
+          disableDoubleClickZoom: true
+
+          map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('googft-legend-open'));
+          map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('googft-legend'));
+          
+          var mapDiv = document.getElementById('googft-mapCanvas');
+          layer = new google.maps.FusionTablesLayer({
+            map: map,
+            heatmap: { enabled: false },
+            query: {
+              select: "col4",  
+              from: "1xdysxZ94uUFIit9eXmnw1fYc6VcQiXhceFd_CVKa",
+              where: "col3 contains ignoring case \x27FL-\x27"
+            },
+            options: {
+            styleId: 307,
+            templateId: 340
+            }
+          });
+            
+          var count = 0;
+
+          for(var i = 0; i < table.length; i++) {
+              var contentString = "DCNumber: " + table[i][0];
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              var marker = new google.maps.Marker({
+                position: {lat: table[i][1], lng: table[i][2]},
+                map: map,
+                title: 'Offender'
+              });
+
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+
+              markers.push(marker);
+          }
+            
+          // Add a marker clusterer to manage the markers.
+          var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+      // Add an event listener on the rectangle.
+      rectangle.addListener('bounds_changed', showNewRect);
+    }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
     </script>
-   <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcYgGIgeDcTi_ojaz-DgvvhTRsIXj2AYg&libraries=visualization&callback=initMap">
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6aD2T35qY3VhMS0zMMblK0l6KRIFvHRI&callback=initMap"
+    async defer></script>
+    
   </body>
 </html>
