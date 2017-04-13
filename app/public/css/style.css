@@ -22,11 +22,12 @@ a {
   margin-top: 10px;
 }
 
-/* Message on the right of the banner */
-#user-message{
+
+.user-message{
   float: right;
   margin-right: 5px;
   margin-top: 10px;
+  padding-right: 2%;
 }
 
 /* What is this for again? */
@@ -38,6 +39,16 @@ a {
 }
 
 /* Button to signup on index */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 #signup-button {
   background-color: lightseagreen;
   border-color: green;
