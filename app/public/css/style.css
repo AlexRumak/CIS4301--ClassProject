@@ -8,7 +8,8 @@ h1 {
     color: white;
     font-size: 80px;
     font-weight: bold;
-    text-shadow: -5px 0 black, 0 5px black, 5px 0 black, 0 -5px black;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    font-family:Arial Bold;
 }
 
 a {
