@@ -133,9 +133,36 @@ app.get('/map', function(req, res){
 // Render map from user requests
 app.post('/map', function(req, res){
     //TODO: GET GEOCOORDINATES FROM COUNTY
-    
-    res.json({})
+    var county = req.body.County;
+    var zipcode = req.body.ZipCode;
+
+    console.log(county.toUpperCase());
+    console.log(zipcode);
+
+    var sqlQuery = "";
+    sqlQuery += "SELECT zipcode FROM zipcode ";
+    sqlQuery += "INNER JOIN county ";
+    sqlQuery += "on zipcode.countyid = county.countyid ";
+    sqlQuery += "where county.countyname = '" + county.toUpperCase() + "'";
+
+    connection.queryRunner(sqlQuery, function(err, results){
+        if(err){
+            return err;
+        }
+        sqlQuery = "";
+        sqlQuery = "SELECT * FROM residences ";
+        sqlQuery += " "
+
+        var tuples = results.rows;
+        for(i = 0; i < tuples.length; i++) {
+            
+        }
+    });
+
+    res.json({});
 })
+
+
 
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});
