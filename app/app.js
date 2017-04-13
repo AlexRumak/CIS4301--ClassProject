@@ -170,8 +170,6 @@ app.post('/map', function(req, res){
     });
 })
 
-
-
 app.get('/action', function(req, res){
     res.render('action.ejs', {user: req.session.user});
 })
@@ -201,6 +199,8 @@ app.get('/search', function(req, res){
 
 // Render the results on a search submission
 app.get('/results', function(req, res){
+    // Function below breaks the URL up given
+    // a URI such as /results?params='paramValue'&moreParams
     function getParameterByName(name, url) {
         if (!url) {
             url = req.url;
@@ -218,12 +218,30 @@ app.get('/results', function(req, res){
     }
 
     var firstName = getParameterByName('first');
-    firstName = "";
     var lastName = getParameterByName('last');
+    var dcn = getParameterByName('dcn');
+    var race = getParameterByName('race');
+    var sex = getParameterByName('sex');
+    var county = getParameterByName('county');
+    var zipcode = getParameterByName('zipcode');
 
-    var queryString = `SELECT * FROM Inmate WHERE fistname like '%${firstName}%'`; 
-    //AND lastname like '${lastName}'`;
-    queryRunner(queryString, function(err, results){
+    var queryString = "";
+    if(county != ""){
+        queryString = ``;
+    } else if (zipcode != "") {
+        queryString = ``;
+    } else {
+        queryString =`SELECT * FROM Inmate where fistName like '%${firstName}%' AND lastName like '%${lastName}%' AND sex = '%${lastName}%'`;
+        if(sex != ""){
+            queryString = queryString + `and sex = '${sex}'`;
+        }
+        if(race != "" ){
+            queryString = queryString + `and race = '${race}'`;
+        }
+    }
+
+
+    connection.queryRunner(queryString, function(err, results){
         if(err){
             return err;
         }
@@ -231,9 +249,73 @@ app.get('/results', function(req, res){
     });
 });
 
-// Testing if session works
-app.get('/session', function(req, res){
-    res.send(req.session);
+// Render the results on a residence search submission
+app.get('/rdresults', function(req, res){
+    // Function below breaks the URL up given
+    // a URI such as /results?params='paramValue'&moreParams
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = req.url;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+        if (!results){ 
+            return null;
+        }
+        if (!results[2]){
+            return '';
+        } 
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var firstName = getParameterByName('first');
+    var lastName = getParameterByName('last');
+    var dcn = getParameterByName('dcn');
+
+    var queryString = `select a.residenceid, a.addressline1, a.addressline2, a.city, a.state, a.zipcode from residence a, offender b where b.firstname like '%${firstName}%' and b.lastname like '%${lastName}%'`;
+
+
+    connection.queryRunner(queryString, function(err, results){
+        if(err){
+            return err;
+        }
+        res.render('results.ejs', {user: req.session.user, records: results});
+    });
+});
+
+// Render the results on an offense search submission
+app.get('/ofresults', function(req, res){
+    // Function below breaks the URL up given
+    // a URI such as /results?params='paramValue'&moreParams
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = req.url;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+        if (!results){ 
+            return null;
+        }
+        if (!results[2]){
+            return '';
+        } 
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var firstName = getParameterByName('first');
+    var lastName = getParameterByName('last');
+    var dcn = getParameterByName('dcn');
+    var county = getParameterByName('county');
+
+    var queryString = `SELECT * from Offense where `
+    connection.queryRunner(queryString, function(err, results){
+        if(err){
+            return err;
+        }
+        res.render('results.ejs', {user: req.session.user, records: results});
+    });
 });
 
 // Start the server

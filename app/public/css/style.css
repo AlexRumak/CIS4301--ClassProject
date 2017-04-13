@@ -84,10 +84,11 @@ a {
 
 /* Search page styling below
 * Lot of hacky shit going on here */
-#search-pane {
+.search-pane {
   width: 40%;
-  margin-left: auto;
-  margin-right: auto;
+  display: inline-block;
+  margin-left: 50px;
+  margin-right: 50px;
   padding: 25px;
   background-color: darkslategrey;
   box-shadow: 3px 3px 4px black;
@@ -95,10 +96,21 @@ a {
   color: white;
 }
 
-#search-pane select{
-  width: 50%;
+#residence-pane {
+  position: relative;
+  top: -260px;
+}
+
+#offense-pane {
+  position: absolute;
+  left: 930px;
+  top: 500px;
+}
+
+#offense-county-list{
   margin-left: auto;
   margin-right: auto;
+  width: 60%;
 }
 
 #search-header {
@@ -108,19 +120,38 @@ a {
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
+#select-race, #select-sex, #select-county {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#return-search {
+  margin-bottom: 15px;
+  background-color: skyblue;
+  border: 2px solid darkblue;
+}
 
 #results-container {
   background-color: white;
   border-radius: 4px;
-  font-size: 12px;
+  box-shadow: 10px 10px black, 10px 0px black, -2px -2px black ;
+  width: 90%;
+  margin-bottom: 100px;
 }
 
 th {
+  font-size: 13px;
   text-align: center;
+  padding: 10px;
+  border-bottom: 3px solid black;
 }
 
 td {
+  font-size: 12px;
   padding: 4px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 

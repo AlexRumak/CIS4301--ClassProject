@@ -32,7 +32,8 @@
 
     <div class="container-fluid">
 
-        <div id="search-pane">
+        <!-- Criminal Search -->
+        <div class="search-pane">
             <form class="form-search" action="/results" method="PUT">
             <h2 class="form-search-heading" id="search-header">Criminal Database Search</h2>
                 
@@ -46,19 +47,22 @@
 
                 </br>
 
-                <label for="input-age">Age
-                    <input type="number" name ="age" class="form-control" id="input-age" placeholder="Age" maxlength="3" min="1">
+                <label for="input-dcn">DCNumber
+                    <input type="search" name="dcn" class="form-control" id="input-dcn"  placeholder="DCNumber">
                 </label>
 
                 <div class="form-group">
                     <label for="select-race">Race</label>
                     <select name="race" id="select-race" class="form-control">
                         <option value=""></option>
-                        <option value="Asian">Asian</option>
-                        <option value="Black">Black</option>
-                        <option value="Hispanic">Hispanic</option>
-                        <option value="White">White</option>
-                        <option value="Indigenous">Indigenous</option>
+
+                        <option value="A">Asian</option>
+                        <option value="B">Black</option>
+                        <option value="H">Hispanic</option>
+                        <option value="I">Indian</option>
+                        <option value="W">White</option>
+                        <option value="U">Unknown</option>
+
                     </select>
                 </div>
 
@@ -71,11 +75,12 @@
                     </select>
                 </div>
 
+                <hr>
 
                 <div class="form-group">
                     <label for="select-county">Select county:</label>
                     <select name="county" id="select-county" class="form-control">
-                        <option value="Default"></option>
+                        <option value=""></option>
                         <option value="All">All Counties</option>
                         <option value="Alachua">Alachua</option>
                         <option value="Baker">Baker</option>
@@ -147,27 +152,140 @@
                         <option value="Washington">Washington</option>
                     </select>
                 </div>
-            
-                <label for="input-zip">Zipcode
-                    <input type="number" name="zipcode" class="form-control" id="input-ip" placeholder="Zipcode" maxlength="5">
-                </label>
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="offender-flag"> Include Offenders in Search
-                    </label>
-                </div>
-                
-                 <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="inmate-flag"> Include Inmates in Search
-                    </label>
-                </div>
-                
-                <button class="btn btn-lg btn-primary" onclick="window.location='results.ejs'" type="submit">Search</button>
+                </br></br>
+
+                <button class="btn btn-lg btn-primary" type="submit">Search</button>
             </form>
         </div>
       
+        <!-- Residence Search -->
+        <div class="search-pane" id="residence-pane">
+            <form class="form-search" action="/rdresults" method="PUT">
+            <h2 class="form-search-heading" id="search-header">Residence Search</h2>
+                
+                <label>First Name
+                    <input type="search" name="first" class="form-control input-first-name" placeholder="First Name">
+                </label>
+                
+
+                <label>Last Name
+                    <input type="search" name="last" class="form-control input-last-name"  placeholder="Last Name">
+                </label>
+
+                </br>
+            
+                </br>
+
+                </br></br>
+
+                <button class="btn btn-lg btn-primary" onclick="window.location='results.html'" type="submit">Search</button>
+
+            </form>
+        </div>
+
+        <!-- Offense Search 
+        <div class="search-pane" id="offense-pane">
+            <form class="form-search" action="/ofresults" method="PUT">
+            <h2 class="form-search-heading" id="search-header">Offense Search</h2>
+                
+                <label>First Name
+                    <input type="search" name="first" class="form-control input-first-name" placeholder="First Name">
+                </label>
+                
+                <label>Last Name
+                    <input type="search" name="last" class="form-control input-last-name"  placeholder="Last Name">
+                </label>
+
+                </br>
+
+                <label>DCNumber
+                    <input type="search" name="dcn" class="form-control input-dcn"  placeholder="DCNumber">
+                </label>
+            
+                </br>
+
+                <div class="form-group">
+                    <label for="select-county">Select county:</label>
+                    <select name="county" class="form-control" id="offense-county-list">
+                        <option value=""></option>
+                        <option value="All">All Counties</option>
+                        <option value="Alachua">Alachua</option>
+                        <option value="Baker">Baker</option>
+                        <option value="Bay">Bay</option>
+                        <option value="Bradford">Bradford</option>
+                        <option value="Brevard">Brevard</option>
+                        <option value="Broward">Broward</option>
+                        <option value="Calhoun">Calhoun</option>
+                        <option value="Charlotte">Charlotte</option>
+                        <option value="Citrus">Citrus</option>
+                        <option value="Clay">Clay</option>
+                        <option value="Collier">Collier</option>
+                        <option value="Columbia">Columbia</option>
+                        <option value="DeSoto">DeSoto</option>
+                        <option value="Dixie">Dixie</option>
+                        <option value="Duval">Duval</option>
+                        <option value="Escambia">Escambia</option>
+                        <option value="Flagler">Flagler</option>
+                        <option value="Franklin">Franklin</option>
+                        <option value="Gadsden">Gadsden</option>
+                        <option value="Gilchrist">Gilchrist</option>
+                        <option value="Glades">Glades</option>
+                        <option value="Gulf">Gulf</option>
+                        <option value="Hamilton">Hamilton</option>
+                        <option value="Hardee">Hardee</option>
+                        <option value="Hendry">Hendry</option>
+                        <option value="Hernando">Hernando</option>
+                        <option value="Highlands">Highlands</option>
+                        <option value="Hillsborough">Hillsborough</option>
+                        <option value="Holmes">Holmes</option>
+                        <option value="Indian River">Indian River</option>
+                        <option value="Jackson">Jackson</option>
+                        <option value="Jefferson">Jefferson</option>
+                        <option value="Holmes">Holmes</option>
+                        <option value="Lafayette">Lafayette</option>
+                        <option value="Lake">Lake</option>
+                        <option value="Lee">Lee</option>
+                        <option value="Leon">Leon</option>
+                        <option value="Levy">Levy</option>
+                        <option value="Liberty">Liberty</option>
+                        <option value="Madison">Madison</option>
+                        <option value="Manatee">Manatee</option>
+                        <option value="Marion">Marion</option>
+                        <option value="Martin">Martin</option>
+                        <option value="Miami-Dade">Miami-Dade</option>
+                        <option value="Monroe">Monroe</option>
+                        <option value="Nassau">Nassau</option>
+                        <option value="Okaloosa">Okaloosa</option>
+                        <option value="Okeechobee">Okeechobee</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Osceola">Osceola</option>
+                        <option value="Palm Beach">Palm Beach</option>
+                        <option value="Pasco">Pasco</option>
+                        <option value="Pinellas">Pinellas</option>
+                        <option value="Polk">Polk</option>
+                        <option value="Putnam">Putnam</option>
+                        <option value="St. Johns">St. Johns</option>
+                        <option value="St. Lucie">St. Lucie</option>
+                        <option value="Santa Rosa">Santa Rosa</option>
+                        <option value="Sarasota">Sarasota</option>
+                        <option value="Seminole">Seminole</option>
+                        <option value="Sumter">Sumter</option>
+                        <option value="Suwannee">Suwannee</option>
+                        <option value="Taylor">Taylor</option>
+                        <option value="Union">Union</option>
+                        <option value="Volusia">Volusia</option>
+                        <option value="Wakulla">Wakulla</option>
+                        <option value="Walton">Walton</option>
+                        <option value="Washington">Washington</option>
+                    </select>
+                </div>
+
+                </br>
+
+                <button class="btn btn-lg btn-primary" type="submit">Search</button>
+            </form>
+        </div> Offense search --> 
 
     </div> <!-- /container -->
   </body>
