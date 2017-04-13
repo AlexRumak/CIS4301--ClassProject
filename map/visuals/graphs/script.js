@@ -1,17 +1,143 @@
-var bardata = [];
-var namedata =[];
-
-d3.csv('offender_county_count_theft.csv',function (data) {
-
-    for (key in data)
-        {
-            
-        data.forEach(function(d) {
-            d.Number = +d.Number;
-          }); 
-            bardata.push(data[key].Number)
-            namedata.push(data[key].OFFENSECOUNTY)   
-        }     
+var bardata = [1654
+,11182
+,1223
+,80
+,40
+,1267
+,225
+,2014
+,65
+,29
+,4273
+,979
+,2309
+,514
+,357
+,86
+,127
+,134
+,306
+,1119
+,45
+,132
+,1398
+,228
+,31
+,5
+,884
+,883
+,2807
+,847
+,271
+,158
+,738
+,985
+,101
+,21
+,49
+,118
+,106
+,1219
+,187
+,116
+,381
+,132
+,738
+,5
+,197
+,5453
+,410
+,285
+,59
+,171
+,146
+,601
+,645
+,31
+,12
+,1455
+,74
+,691
+,98
+,17
+,4573
+,91
+,115
+,329
+,183
+,41,
+34];
+var namedata =['DUVAL',
+'BROWARD',
+'ALACHUA',
+'LAFAYETTE',
+'GILCHRIST',
+'ESCAMBIA',
+'LAKE',
+'SEMINOLE',
+'WALTON',
+'HENDRY',
+'MIAMI-DADE',
+'PALM BEACH',
+'PINELLAS',
+'VOLUSIA',
+'SARASOTA',
+'FLAGLER',
+'SANTA ROSA',
+'BAKER',
+'TAYLOR',
+'ORANGE',
+'WASHINGTON',
+'HERNANDO',
+'ST. LUCIE',
+'ST. JOHNS',
+'WAKULLA',
+'GULF',
+'LEON',
+'MARTIN',
+'INTERSTATE',
+'MARION',
+'MANATEE',
+'LEVY',
+'COLUMBIA',
+'PASCO',
+'DESOTO',
+'GLADES',
+'HOLMES',
+'CHARLOTTE',
+'BRADFORD',
+'MONROE',
+'OKALOOSA',
+'CITRUS',
+'LEE',
+'MADISON',
+'HIGHLANDS',
+'OUT OF STATE',
+'DIXIE',
+'BREVARD',
+'BAY',
+'OSCEOLA',
+'JEFFERSON',
+'NASSAU',
+'HARDEE',
+'CLAY',
+'SUWANNEE',
+'CALHOUN',
+'FRANKLIN',
+'HILLSBOROUGH',
+'JACKSON',
+'INDIAN RIVER',
+'GADSDEN',
+'LIBERTY',
+'POLK',
+'PUTNAM',
+'COLLIER',
+'OKEECHOBEE',
+'HAMILTON',
+'SUMTER',
+'UNION'
+];
+       
     
 var margin = {top:30,right:30,bottom:40,left:50}
 
@@ -150,7 +276,6 @@ var mytext = d3.select('body').append('div')
 				.style('fill','none')
 				.style('stroke', '#000')
 			hGuide.selectAll('line')
-				.style('stroke', "#000")
-});
+				.style('stroke', "#000");
 
 
