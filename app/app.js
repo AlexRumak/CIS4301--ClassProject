@@ -170,7 +170,7 @@ app.get('/results', function(req, res){
     var firstName = getParameterByName('first');
     var lastName = getParameterByName('last');
 
-    var queryString = `SELECT * FROM Inmate where firstName like '%${firstName}%' OR lastName like '%${lastName}%'`;
+    var queryString = `SELECT * FROM Inmate where firstName like '%${firstName}%' AND lastName like '%${lastName}%'`;
 
     connection.queryRunner(queryString, function(err, results){
         if(err){
