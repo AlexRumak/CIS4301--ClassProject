@@ -133,7 +133,7 @@ app.get('/map', function(req, res){
 // Render map from user requests
 app.post('/map', function(req, res){
     //TODO: GET GEOCOORDINATES FROM COUNTY
-
+    
     res.json({})
 })
 
