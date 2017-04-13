@@ -157,8 +157,35 @@ app.get('/search', function(req, res){
 });
 
 // Render the results on a search submission
-app.post('/search', function(req, res){
+app.get('/results', function(req, res){
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = req.url;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+        if (!results){ 
+            return null;
+        }
+        if (!results[2]){
+            return '';
+        } 
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
+    var firstName = getParameterByName('first');
+    firstName = "";
+    var lastName = getParameterByName('last');
+
+    var queryString = `SELECT * FROM Inmate WHERE fistname like '%${firstName}%'`; 
+    //AND lastname like '${lastName}'`;
+    queryRunner(queryString, function(err, results){
+        if(err){
+            return err;
+        }
+        res.render('results.ejs', {user: req.session.user, records: results});
+    });
 });
 
 // When the user logs out, get rid of the session
