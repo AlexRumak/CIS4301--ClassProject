@@ -3,6 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+
+    <!-- This page's stylehseet -->
+    <link rel="stylesheet" href="../css/style.css">
+
 <style>
     #banner {
     background-color: white;
@@ -13,19 +20,59 @@
     box-shadow: 0 10px 5px black;
     font-size: 16px;
     font-weight: bold;
-    color: grey;
-}
-</style>
+    color: grey;   
+    }
 
+    .custom-button {
+     border-radius: 4px;
+     border: 1px solid;
+     cursor: pointer;
+    }
+
+    #log-out {
+     background-color: lightblue;
+     padding-left: 5px;
+    }
+</style>
 
 <div id ="banner">
     <p id="class-message">CIS 4301 Database Group 03</p>
     <!-- Checks if a session is going on and will display their name if it is -->
     <% if (user) {%>
-        <p id="user-message">Hello, <%= user %></p> 
+        <p class="user-message custom-button noselect" id="log-out"><span>Log out</span></p>
+        <p class="user-message">Hello, <%= user %>!</p> 
     <% } else { %>
-        <p id="user-message">Welcome!</p>
+        <p class="user-message">Welcome!</p>
     <% } %>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+
+<script>
+$('.custom-button').mouseenter(function() {
+    //On-hover
+    $(this).css("background-color", "#18414e");
+}).mouseleave(function() {
+    //On-leave
+    $(this).css("background-color", "lightblue")
+});
+
+$('#log-out').click(function() {
+   $.ajax({type: "POST",
+            url: "/logout",
+            data: { },
+            success:function(result) { 
+                window.location = '/';
+            },
+            failure:function(result) {
+                alert("error: connection failure");
+            }
+    });
+});
+</script>
+
+
 
 </html>
